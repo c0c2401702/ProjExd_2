@@ -36,13 +36,25 @@ def gameover(screen: pg.Surface) ->None:
     txt=fonto.render("Game Over",True,(255,255,255))
     go_img.blit(txt, [470,300])
     kou_img=pg.image.load("fig/8.png")
-    go_img.blit(kou_img,[400,280]) #１個目のこうかとんを描画する
-    go_img.blit(kou_img,[600,280]) #２個目のこうかとんを描画する
-    screen.blit(go_img,[0,0]) #GameOverを描画する
+    go_img.blit(kou_img, [400,280]) #１個目のこうかとんを描画する
+    go_img.blit(kou_img, [600,280]) #２個目のこうかとんを描画する
+    screen.blit(go_img, [0,0]) #GameOverを描画する
     pg.display.update()
     time.sleep(5) #５秒表示
     return screen
 
+def init_bb_imgs() -> tuple[list[pg.Surface],list[int]]:
+    """
+    課題２の途中
+    """
+    for r in range(1,11): #爆破Surfaceのリスト
+        bb_img=pg.Surface((20*r, 20*r))
+        bb_imgs=[]
+        pg.draw.circle(bb_img,(255,0,0),(10*r,10*r),10*r)
+        bb_imgs.append(bb_img)
+    for a in bb_imgs: #加速度のリスト
+        bb_accs=[a for a in range(1,11)]
+    return bb_imgs,bb_accs #これらのリストのタプル
 
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
