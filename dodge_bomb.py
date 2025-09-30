@@ -1,6 +1,7 @@
 import os
 import random
 import sys
+import time
 import pygame as pg
 
 
@@ -27,6 +28,21 @@ def cheack_bound(rct: pg.Rect) -> tuple[bool, bool]:
         tate=False 
     return yoko, tate
 
+def gameover(screen: pg.Surface) ->None:
+    go_img = pg.Surface((WIDTH, HEIGHT)) #空のSurface
+    pg.draw.rect(go_img,(0,0,0),(0,0,WIDTH,HEIGHT)) 
+    go_img.set_alpha(200) #透明化
+    fonto=pg.font.Font(None, 30) #（フォント名,サイズ）
+    txt=fonto.render("Game Over",True,(255,255,255))
+    go_img.blit(txt, [470,300])
+    kou_img=pg.image.load("fig/8.png")
+    go_img.blit(kou_img,[400,280]) #１個目のこうかとんを描画する
+    go_img.blit(kou_img,[600,280]) #２個目のこうかとんを描画する
+    screen.blit(go_img,[0,0]) #GameOverを描画する
+    pg.display.update()
+    time.sleep(5) #５秒表示
+    return screen
+
 
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
@@ -50,6 +66,7 @@ def main():
                 return
         screen.blit(bg_img, [0, 0]) 
         if kk_rct.colliderect(bb_rct): #こうかとんと爆弾の衝突判定
+            gameover(screen)
             return #ゲームオーバー
 
         key_lst = pg.key.get_pressed()
